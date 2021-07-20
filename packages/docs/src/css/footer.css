@@ -1,0 +1,26 @@
+.footer{
+    height: 80px;
+}
+.footer p{
+    padding: 20px 0;
+    text-align: center;
+    color: #ee9ca7;
+}
+.footer p span{
+    font-size: 22px;
+    margin-right: 20px;
+    vertical-align: bottom;
+}
+.footer p span a{
+    font-size: 11px;
+    text-decoration: none;
+    color: #ee9ca7;
+}
+.footer p span a:visited{
+    color: #ee9ca7;
+}
+.footer p span img{
+    display: inline-block;
+    vertical-align: bottom;
+    width: 30px;
+}
