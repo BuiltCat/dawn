@@ -1,52 +1,51 @@
 import React from 'react'
-import style from './button.module.css'
+import classNames from 'classnames/bind'
+import styles from './button.module.css'
 
-type ButtonProps = {
+const cx = classNames.bind(styles);
+
+export type IbuttonType = 'primary' | 'secondary' | 'text' | 'icon' | string
+
+export interface IButtonProps extends React.HTMLAttributes<HTMLElement> {
     /** 按钮的样式 */
-    type?: string
-    children: React.ReactNode
-    fill?: boolean
-    round?: boolean
+    type?: IbuttonType
     disabled?: boolean
-    size?: string
     icon?: string
-    circle?: boolean
+    dropdown?: boolean
+    menuProps?: IContextualMenuProps[]
 }
 
-export function Button({ type, children, fill, round, disabled, size, icon, circle }: ButtonProps) {
-    let className = [style['button']]
+export interface IContextualMenuProps {
+    key: string | number
+    text: string
+    icon?: string
+}
 
+export function Button({ type, disabled, icon, dropdown, children, menuProps }: IButtonProps) {
+    const classes = cx('button', type)
+    const renderMenu = () => {
+        if (!menuProps) {
+            return null
+        }
+        menuProps.map(menu => {
+            return (<li>
+                <span>{menu.icon}</span>
+                <span>{menu.text}</span>
+            </li>)
+        })
+        return (<ul>
+            {menuProps}
+        </ul>)
 
-    if (type) {
-        className.push(style[type])
     }
-
-    if (fill) {
-        className.push(style['fill'])
-    }
-    if (round) {
-        className.push(style['round'])
-    }
-    if (size) {
-        className.push(style[size])
-    }
-    if(circle) {
-        className.push(style['circle'])
-    }
-    if(icon){
-        return (
-            <button className={className.join(' ')} disabled={disabled} >
-                <span className={`catfont ${icon}`}>
-                        {children}
-                </span>
-            </button>
-        )
-    }else{
-        return (
-            <button className={className.join(' ')} disabled={disabled} >
-                        {children}
-            </button>
-        )
-    }
-    
+    return (
+        <button className={classes} disabled={disabled} >
+            <div className={styles['inner']}>
+                {icon ? <span className={`${styles['icon']} catfont ${icon}`}></span> : null}
+                {children ? <span className={styles['text']}>{children}</span> : null}
+                {dropdown ? <span className={`${styles['dropdown']} catfont cat-down`}></span> : null}
+            </div>
+            {renderMenu()}
+        </button>
+    )
 }

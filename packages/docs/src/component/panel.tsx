@@ -40,10 +40,22 @@ class Panel extends React.Component {
     }
 }
 class PanelItem extends React.Component {
+    renderChildren(){
+        if('map' in this.props.children){
+            return this.props.children.map(item => {
+                return (
+                    <div  className="panel-item-inline">
+                        { item }
+                    </div>
+                )
+            })
+        }
+        return this.props.children
+    }   
     render() {
         return (
             <div className="panel-item">
-                { this.props.children }
+                { this.renderChildren() }
             </div>
         )
     }
